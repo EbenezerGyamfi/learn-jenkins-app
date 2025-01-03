@@ -33,7 +33,7 @@ pipeline {
 
                     ls
                     npm run test
-
+                    find . -name '*.xml' # Locate JUnit XML files
 
 
                     '''
