@@ -3,7 +3,7 @@ pipeline {
 
     stages {
         stage('Build') {
-            agent{
+            agent {
                 docker {
                     image 'node:18-alpine'
                     reuseNode true
@@ -12,38 +12,34 @@ pipeline {
             steps {
                 sh '''
                     ls -la
-                    node --version 
+                    node --version
                     npm --version
-                     npm ci
+                    npm ci
                     npm run build
                     ls -la
-
-                    '''
+                '''
             }
         }
 
-        stage('Test'){
-            agent{
+        stage('Test') {
+            agent {
                 docker {
                     image 'node:18-alpine'
                 }
             }
-            steps{
+            steps {
                 sh '''
-
                     ls
                     npm run test
-                    find . -name '*.xml' # Locate JUnit XML files
-
-
-                    '''
+                    find . -name '*.xml'
+                '''
             }
         }
     }
 
     post {
         always {
-            junit './test-results/junit.xml'
+            junit 'test-results/**/*.xml'
         }
     }
 }
