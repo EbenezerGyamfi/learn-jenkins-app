@@ -3,13 +3,22 @@ pipeline {
 
     stages {
         stage('Build') {
+            agent{
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
             steps {
-                cleanWs()
-                echo 'Building a new Laptop'
-                sh 'mkdir -p build-1'
-                sh 'touch build-1/computer.txt'
-                sh 'echo "Mainboard" >> build-1/computer.txt'
-                sh 'cat build-1/computer.txt'
+                sh '''
+                    ls -la
+                    node --version 
+                    npm --version
+                    npm ci
+                    npm run build
+                    ls -la
+
+                    '''
             }
         }
     }
