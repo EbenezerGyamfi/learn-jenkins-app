@@ -2,6 +2,35 @@ pipeline {
     agent any
 
     stages {
+
+         stage('Run Test') {
+          
+            parallel{
+                 stage('stag 1') {
+            steps {
+                sh '''
+                   echo Hello 
+                '''
+            }
+
+            
+        }
+
+        stage('stag 2') {
+            steps {
+                sh '''
+                   echo Hello 
+                '''
+            }
+
+        }
+            }
+            steps {
+                sh '''
+                   
+                '''
+            }
+        }
         stage('Build') {
             agent {
                 docker {
@@ -40,16 +69,33 @@ pipeline {
             agent {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.49.1-noble'
+                    reuseNode true
                 }
             }
             steps {
                 sh '''
-                    npm install -g serve
-                    serve -s build 
-                    npx palywright test
-
+                   
                 '''
             }
+        }
+
+         stage('stag 1') {
+            steps {
+                sh '''
+                   echo Hello 
+                '''
+            }
+
+            
+        }
+
+        stage('stag 2') {
+            steps {
+                sh '''
+                   echo Hello 
+                '''
+            }
+
         }
     }
 
